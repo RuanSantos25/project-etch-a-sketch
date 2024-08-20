@@ -1,5 +1,7 @@
 const body = document.querySelector("body");
 const colorsButtons = ["Black Color", "White Color", "Random Color"];
+const defaultSquareColor = "rgba(255, 243, 226, 1)";
+const defaultSquareSize = 16;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
 
@@ -68,6 +70,26 @@ function setButtons() {
     drawButtons(opacityButtons, opacityButtonsArrName);
 }
 
+function drawGrid(squareSize, squareColor) {
+    function createSquare(size, color) {
+        const div = document.createElement("div");
+        div.setAttribute("id", "white-square");
+        div.classList.add("grid");
+        div.style.flexBasis = `calc(100% / ${size})`;
+        div.style.backgroundColor = color;
+        return div;
+    }
+
+    function createGrid(squareSize, squareColor) {
+        const grid = document.querySelector("#grid-container");
+        for (let square = 1; square <= squareSize * squareSize; square++) {
+            grid.appendChild(createSquare(squareSize, squareColor));
+        }
+        body.insertBefore(grid, body.children[2]);
+    }
+    createGrid(squareSize, squareColor);
+}
 
 drawHeaderText();
 setButtons();
+drawGrid(defaultSquareSize, defaultSquareColor);
