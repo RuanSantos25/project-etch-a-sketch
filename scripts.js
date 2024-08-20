@@ -12,7 +12,7 @@ function drawHeaderText() {
     body.insertBefore(h1, body.children[0]);
 }
 
-function setButtons() {
+function drawButtons() {
     function drawButtonsContainer(div, arrayName) {
         div.setAttribute("id", "buttons-container");
         if (arrayName === "modesButtons") body.insertBefore(div, body.children[1]);
@@ -20,7 +20,7 @@ function setButtons() {
         else if (arrayName === "opacityButtons") body.insertBefore(div, body.children[3]);
     }
 
-    function drawButtons(buttonsArray, arrayName) {
+    function createButtons(buttonsArray, arrayName) {
         const div = document.createElement("div");
         for (let buttonIndex = 0; buttonIndex < buttonsArray.length; buttonIndex++) {
             const button = document.createElement("button");
@@ -65,9 +65,9 @@ function setButtons() {
     const colorsButtonsArrName = Object.keys({colorsButtons})[0];
     const opacityButtonsArrName = Object.keys({opacityButtons})[0];
 
-    drawButtons(modesButtons, modesButtonsArrName);
-    drawButtons(colorsButtons, colorsButtonsArrName);
-    drawButtons(opacityButtons, opacityButtonsArrName);
+    createButtons(modesButtons, modesButtonsArrName);
+    createButtons(colorsButtons, colorsButtonsArrName);
+    createButtons(opacityButtons, opacityButtonsArrName);
 }
 
 function drawGrid(squareSize, squareColor) {
@@ -91,5 +91,5 @@ function drawGrid(squareSize, squareColor) {
 }
 
 drawHeaderText();
-setButtons();
+drawButtons();
 drawGrid(defaultSquareSize, defaultSquareColor);
