@@ -1,9 +1,12 @@
 const body = document.querySelector("body");
 const colorsButtons = ["Black Color", "White Color", "Random Color"];
+const defaultPenBlackColor = "rgba(0, 0, 0, 1)";
+const defaultRandomColor = "random";
 const defaultSquareWhiteColor = "rgba(255, 243, 226, 1)";
 const defaultSquareSize = 16;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
+let currentPenColor = defaultPenBlackColor;
 
 function drawHeaderText() {
     const h1 = document.createElement("h1");
@@ -90,6 +93,41 @@ function drawGrid(squareSize, squareColor) {
     createGrid(squareSize, squareColor);
 }
 
+/** 
+ * setSquaresBehavior() adds events listener to mouse hover to each square
+ * inside the grid. When hovered, the square will receive a new id based on
+ * his new color, and a color based on his current id and current pen color.
+*/
+function setSquaresBehavior() {
+    function setNewSquareColor(square, currentSquareColor) {
+        const black = "black-square";
+        const white = "white-square";
+
+        function changeSquareColorTo(color) {
+            if (color === defaultPenBlackColor) {
+                square.setAttribute("id", black);
+                square.style.backgroundColor = defaultPenBlackColor;
+            }
+        }
+
+        if (
+            (currentSquareColor === white)
+            && (currentPenColor === defaultPenBlackColor)
+        ) {
+            changeSquareColorTo(defaultPenBlackColor);
+        } 
+    }
+
+    document.querySelectorAll("#grid-container .grid").forEach(square => {
+        square.addEventListener("mouseover", () => {
+            const id = square.getAttribute("id");
+            setNewSquareColor(square, id);
+        })
+    })
+}
+
+
 drawHeaderText();
 drawButtons();
 drawGrid(defaultSquareSize, defaultSquareWhiteColor);
+setSquaresBehavior();
