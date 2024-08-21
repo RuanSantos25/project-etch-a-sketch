@@ -1,6 +1,6 @@
 const body = document.querySelector("body");
 const colorsButtons = ["Black Color", "White Color", "Random Color"];
-const defaultSquareColor = "rgba(255, 243, 226, 1)";
+const defaultSquareWhiteColor = "rgba(255, 243, 226, 1)";
 const defaultSquareSize = 16;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
@@ -92,4 +92,4 @@ function drawGrid(squareSize, squareColor) {
 
 drawHeaderText();
 drawButtons();
-drawGrid(defaultSquareSize, defaultSquareColor);
+drawGrid(defaultSquareSize, defaultSquareWhiteColor);
