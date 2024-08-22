@@ -95,11 +95,19 @@ function drawGrid(squareSize, squareColor) {
     createGrid(squareSize, squareColor);
 }
 
-/** 
+/**
  * setSquaresBehavior() adds events listener to mouse hover to each square
  * inside the grid. When hovered, the square will receive a new id based on
  * his new color, and a color based on his current id and current pen color.
-*/
+ * if the pen color and the square current color are the same, the function 
+ * will check the current behavior set(default = darker), if darker will 
+ * decrement the opacity, if lighter will increment the opacity. 
+ * 
+ *  - Default opacity = 1;
+ *  - The min opacity = 0;
+ *  - The max opacity = 1;
+ *  - The squares opacity is restarted if the color is changed.
+ */
 function setSquaresBehavior() {
     function getCurrentColor(square) {
         const color = square.style.backgroundColor;
