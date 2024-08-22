@@ -262,7 +262,7 @@ function setSquaresBehavior() {
         }
     }
 
-    document.querySelectorAll("#grid-container .grid").forEach(square => {
+    document.querySelectorAll(squaresInsideGrid).forEach(square => {
         square.addEventListener("mouseover", () => {
             const id = square.getAttribute("id");
             setNewSquareColor(square, id);
