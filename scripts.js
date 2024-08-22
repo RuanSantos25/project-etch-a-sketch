@@ -6,6 +6,7 @@ const defaultSquareWhiteColor = "rgba(255, 243, 226, 1)";
 const defaultSquareSize = 16;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
+const squaresInsideGrid = "#grid-container .grid";
 let currentOpacityBehavior = "darker";
 let currentPenColor = defaultPenBlackColor;
 
@@ -272,6 +273,14 @@ function setSquaresBehavior() {
 function setButtonsClickedBehavior() {
     const buttons = document.querySelectorAll(".button");
 
+    function resetGrid() {
+        const white = "white-square";
+        document.querySelectorAll(squaresInsideGrid).forEach(square => {
+            square.style.backgroundColor = defaultSquareWhiteColor;
+            square.setAttribute("id", white);
+        });
+    }
+
     function setNewPenColorTo(newPenColor) {
         currentPenColor = newPenColor;
     }
@@ -283,6 +292,7 @@ function setButtonsClickedBehavior() {
     function setButtonBehaviorById(button) {
         const buttonBlackColor = "button-black-color";
         const buttonRandomColor = "button-random-color";
+        const buttonResetGrid = "button-reset-grid";
         const buttonWhiteColor = "button-white-color";
         const buttonMoreOpacity = "button-+-transparency";
         const buttonLessOpacity = "button---transparency";
@@ -290,6 +300,11 @@ function setButtonsClickedBehavior() {
         const lighter = "lighter";
         const buttonClicked = button.getAttribute("id");
         
+        // Grid/Mode buttons
+        if (buttonClicked === buttonResetGrid) {
+            resetGrid();
+        }
+
         // Colors buttons
         if (buttonClicked === buttonBlackColor) {
             setNewPenColorTo(defaultPenBlackColor);
