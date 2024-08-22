@@ -64,6 +64,7 @@ function drawButtons() {
         }
         drawButtonsContainer(div, arrayName);
     }
+
     // Gets the name of arrays to string, we use it to setup correctly order on DOM tree
     const modesButtonsArrName = Object.keys({modesButtons})[0];
     const colorsButtonsArrName = Object.keys({colorsButtons})[0];
@@ -114,11 +115,11 @@ function setSquaresBehavior() {
 
     function setNewSquareColor(square, currentSquareColor) {
         const black = "black-square";
-        const white = "white-square";
-        const random = "random-square";
         const darker = "darker";
         const lighter = "lighter";
         const opacity = getSquareRgbaOpacity(square);
+        const random = "random-square";
+        const white = "white-square";
 
         function getRandomRgbaValues() {
             let red = Math.floor(Math.random() * 255);
@@ -158,7 +159,7 @@ function setSquaresBehavior() {
             }
         }
 
-        // From any color to BLACK
+        // 1 From any color to BLACK
         if (
             (currentSquareColor === white)
             && (currentPenColor === defaultPenBlackColor)
@@ -171,7 +172,7 @@ function setSquaresBehavior() {
             changeSquareColorTo(defaultPenBlackColor);
         } 
 
-        // If square already BLACK and current behavior DARKER (decrement opacity)
+        // 1.1 If square already BLACK and current behavior DARKER (decrement opacity)
         else if (
             (currentSquareColor === black)
             && (currentPenColor === defaultPenBlackColor)
@@ -180,7 +181,7 @@ function setSquaresBehavior() {
             decrementSquareOpacity(square);
         }
 
-        // If square already BLACK and current behavior LIGHTER (increment opacity)
+        // 1.2 If square already BLACK and current behavior LIGHTER (increment opacity)
         else if (
             (currentSquareColor === black)
             && (currentPenColor === defaultPenBlackColor)
@@ -189,7 +190,7 @@ function setSquaresBehavior() {
             incrementSquareOpacity(square);
         }
 
-        // From any color to WHITE
+        // 2 From any color to WHITE
         else if (
             (currentSquareColor === black)
             && (currentPenColor === defaultSquareWhiteColor)
@@ -202,7 +203,7 @@ function setSquaresBehavior() {
             changeSquareColorTo(defaultSquareWhiteColor);
         } 
 
-        // If square already WHITE and current behavior DARKER (decrement opacity)
+        // 2.1 If square already WHITE and current behavior DARKER (decrement opacity)
         else if (
             (currentSquareColor === white)
             && (currentPenColor === defaultSquareWhiteColor)
@@ -211,7 +212,7 @@ function setSquaresBehavior() {
             decrementSquareOpacity(square);
         }
         
-        // If square already WHITE and current behavior LIGHTER (increment opacity)
+        // 2.2 If square already WHITE and current behavior LIGHTER (increment opacity)
         else if (
             (currentSquareColor === white)
             && (currentPenColor === defaultSquareWhiteColor)
@@ -220,7 +221,7 @@ function setSquaresBehavior() {
             incrementSquareOpacity(square);
         }
 
-        // From any color to RANDOM
+        // 3 From any color to RANDOM
         else if (
             (currentSquareColor === white)
             && (currentPenColor === defaultRandomColor)
@@ -233,7 +234,7 @@ function setSquaresBehavior() {
             changeSquareColorTo(defaultRandomColor);
         }
 
-        // If square already RANDOM and current behavior DARKER (decrement opacity)
+        // 3.1 If square already RANDOM and current behavior DARKER (decrement opacity)
         else if (
             (currentSquareColor === random)
             && (currentPenColor === defaultRandomColor)
@@ -242,7 +243,7 @@ function setSquaresBehavior() {
             decrementSquareOpacity(square);
         }
 
-        // If square already RANDOM and current behavior LIGHTER (increment opacity)
+        // 3.2 If square already RANDOM and current behavior LIGHTER (increment opacity)
         else if (
             (currentSquareColor === random)
             && (currentPenColor === defaultRandomColor)
@@ -299,7 +300,7 @@ function setButtonsClickedBehavior() {
     }
 
     buttons.forEach(button => {
-        button.addEventListener("click", (event) => {setButtonBehaviorById(event.target)})
+        button.addEventListener("click", (event) => {setButtonBehaviorById(event.target)});
     })
 }
 
