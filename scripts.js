@@ -107,6 +107,9 @@ function setSquaresBehavior() {
             if (color === defaultPenBlackColor) {
                 square.setAttribute("id", black);
                 square.style.backgroundColor = defaultPenBlackColor;
+            } else if (color === defaultSquareWhiteColor) {
+                square.setAttribute("id", white);
+                square.style.backgroundColor = defaultSquareWhiteColor;
             }
         }
 
@@ -115,7 +118,12 @@ function setSquaresBehavior() {
             && (currentPenColor === defaultPenBlackColor)
         ) {
             changeSquareColorTo(defaultPenBlackColor);
-        } 
+        } else if (
+            (currentSquareColor === black)
+            && (currentPenColor === defaultSquareWhiteColor)
+        ) {
+            changeSquareColorTo(defaultSquareWhiteColor);
+        }
     }
 
     document.querySelectorAll("#grid-container .grid").forEach(square => {
@@ -126,8 +134,33 @@ function setSquaresBehavior() {
     })
 }
 
+function setButtonsClickedBehavior() {
+    const buttons = document.querySelectorAll(".button");
+
+    function setNewPenColorTo(newPenColor) {
+        currentPenColor = newPenColor;
+    }
+
+    function setButtonBehaviorById(button) {
+        const buttonBlackColor = "button-black-color";
+        const buttonWhiteColor = "button-white-color";
+        const buttonClicked = button.getAttribute("id");
+        
+        if (buttonClicked === buttonBlackColor) {
+            setNewPenColorTo(defaultPenBlackColor);
+        } else if (buttonClicked === buttonWhiteColor) {
+            setNewPenColorTo(defaultSquareWhiteColor);
+        }
+    }
+
+    buttons.forEach(button => {
+        button.addEventListener("click", (event) => {setButtonBehaviorById(event.target)})
+    })
+}
+
 
 drawHeaderText();
 drawButtons();
 drawGrid(defaultSquareSize, defaultSquareWhiteColor);
 setSquaresBehavior();
+setButtonsClickedBehavior();
