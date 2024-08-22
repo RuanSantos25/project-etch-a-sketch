@@ -102,6 +102,14 @@ function setSquaresBehavior() {
     function setNewSquareColor(square, currentSquareColor) {
         const black = "black-square";
         const white = "white-square";
+        const random = "random-square";
+
+        function getRandomRgbaValues() {
+            let red = Math.floor(Math.random() * 255);
+            let green = Math.floor(Math.random() * 255);
+            let blue = Math.floor(Math.random() * 255);
+            return `rgba(${red}, ${green}, ${blue}, 1)`;
+        }
 
         function changeSquareColorTo(color) {
             if (color === defaultPenBlackColor) {
@@ -110,19 +118,49 @@ function setSquaresBehavior() {
             } else if (color === defaultSquareWhiteColor) {
                 square.setAttribute("id", white);
                 square.style.backgroundColor = defaultSquareWhiteColor;
+            } else if (color === defaultRandomColor) {
+                square.setAttribute("id", random);
+                square.style.backgroundColor = getRandomRgbaValues();
             }
         }
 
+        // From any color to BLACK
         if (
             (currentSquareColor === white)
             && (currentPenColor === defaultPenBlackColor)
         ) {
             changeSquareColorTo(defaultPenBlackColor);
         } else if (
+            (currentSquareColor === random)
+            && (currentPenColor === defaultPenBlackColor)
+        ) {
+            changeSquareColorTo(defaultPenBlackColor);
+        }
+
+        // From any color to WHITE
+        else if (
             (currentSquareColor === black)
             && (currentPenColor === defaultSquareWhiteColor)
         ) {
             changeSquareColorTo(defaultSquareWhiteColor);
+        } else if (
+            (currentSquareColor === random)
+            && (currentPenColor === defaultSquareWhiteColor)
+        ) {
+            changeSquareColorTo(defaultSquareWhiteColor);
+        } 
+        
+        // From any color to RANDOM
+        else if (
+            (currentSquareColor === white)
+            && (currentPenColor === defaultRandomColor)
+        ) {
+            changeSquareColorTo(defaultRandomColor);
+        } else if (
+            (currentSquareColor === black)
+            && (currentPenColor === defaultRandomColor)
+        ) {
+            changeSquareColorTo(defaultRandomColor);
         }
     }
 
@@ -143,6 +181,7 @@ function setButtonsClickedBehavior() {
 
     function setButtonBehaviorById(button) {
         const buttonBlackColor = "button-black-color";
+        const buttonRandomColor = "button-random-color";
         const buttonWhiteColor = "button-white-color";
         const buttonClicked = button.getAttribute("id");
         
@@ -150,6 +189,8 @@ function setButtonsClickedBehavior() {
             setNewPenColorTo(defaultPenBlackColor);
         } else if (buttonClicked === buttonWhiteColor) {
             setNewPenColorTo(defaultSquareWhiteColor);
+        } else if (buttonClicked === buttonRandomColor) {
+            setNewPenColorTo(defaultRandomColor);
         }
     }
 
