@@ -117,6 +117,7 @@ function setSquaresBehavior() {
         const white = "white-square";
         const random = "random-square";
         const darker = "darker";
+        const lighter = "lighter";
         const opacity = getSquareRgbaOpacity(square);
 
         function getRandomRgbaValues() {
@@ -148,6 +149,15 @@ function setSquaresBehavior() {
             }
         }
 
+        function incrementSquareOpacity(square) {
+            if (opacity >= 1) return;
+            else {
+                const rgbaColor = getCurrentColor(square);
+                const newOpacity = (+opacity + 0.1).toString();
+                square.style.backgroundColor = `rgba(${rgbaColor[0]}, ${rgbaColor[1]}, ${rgbaColor[2]}, ${newOpacity})`;
+            }
+        }
+
         // From any color to BLACK
         if (
             (currentSquareColor === white)
@@ -168,6 +178,15 @@ function setSquaresBehavior() {
             && (currentOpacityBehavior === darker)
         ) {
             decrementSquareOpacity(square);
+        }
+
+        // If square already BLACK and current behavior LIGHTER (increment opacity)
+        else if (
+            (currentSquareColor === black)
+            && (currentPenColor === defaultPenBlackColor)
+            && (currentOpacityBehavior === lighter)
+        ) {
+            incrementSquareOpacity(square);
         }
 
         // From any color to WHITE
@@ -192,6 +211,15 @@ function setSquaresBehavior() {
             decrementSquareOpacity(square);
         }
         
+        // If square already WHITE and current behavior LIGHTER (increment opacity)
+        else if (
+            (currentSquareColor === white)
+            && (currentPenColor === defaultSquareWhiteColor)
+            && (currentOpacityBehavior === lighter)
+        ) {
+            incrementSquareOpacity(square);
+        }
+
         // From any color to RANDOM
         else if (
             (currentSquareColor === white)
@@ -213,6 +241,15 @@ function setSquaresBehavior() {
         ) {
             decrementSquareOpacity(square);
         }
+
+        // If square already RANDOM and current behavior LIGHTER (increment opacity)
+        else if (
+            (currentSquareColor === random)
+            && (currentPenColor === defaultRandomColor)
+            && (currentOpacityBehavior === lighter)
+        ) {
+            incrementSquareOpacity(square);
+        }
     }
 
     document.querySelectorAll("#grid-container .grid").forEach(square => {
@@ -230,18 +267,34 @@ function setButtonsClickedBehavior() {
         currentPenColor = newPenColor;
     }
 
+    function setNewOpacityBehavior(newOpacityBehavior) {
+        currentOpacityBehavior = newOpacityBehavior;
+    }
+
     function setButtonBehaviorById(button) {
         const buttonBlackColor = "button-black-color";
         const buttonRandomColor = "button-random-color";
         const buttonWhiteColor = "button-white-color";
+        const buttonMoreOpacity = "button-+-transparency";
+        const buttonLessOpacity = "button---transparency";
+        const darker = "darker";
+        const lighter = "lighter";
         const buttonClicked = button.getAttribute("id");
         
+        // Colors buttons
         if (buttonClicked === buttonBlackColor) {
             setNewPenColorTo(defaultPenBlackColor);
         } else if (buttonClicked === buttonWhiteColor) {
             setNewPenColorTo(defaultSquareWhiteColor);
         } else if (buttonClicked === buttonRandomColor) {
             setNewPenColorTo(defaultRandomColor);
+        } 
+        
+        // Opacity/Transparency buttons
+        else if (buttonClicked === buttonMoreOpacity) {
+            setNewOpacityBehavior(darker);
+        } else if (buttonClicked === buttonLessOpacity) {
+            setNewOpacityBehavior(lighter);
         }
     }
 
