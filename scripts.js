@@ -6,6 +6,7 @@ const defaultSquareWhiteColor = "rgba(255, 243, 226, 1)";
 const defaultSquareSize = 16;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
+let currentOpacityBehavior = "darker";
 let currentPenColor = defaultPenBlackColor;
 
 function drawHeaderText() {
@@ -99,10 +100,24 @@ function drawGrid(squareSize, squareColor) {
  * his new color, and a color based on his current id and current pen color.
 */
 function setSquaresBehavior() {
+    function getCurrentColor(square) {
+        const color = square.style.backgroundColor;
+        const colorArr = color.slice(color.indexOf("(") + 1, color.indexOf(")")).split(", ");
+        return colorArr;
+    }
+    
+    function getSquareRgbaOpacity(square) {
+        color = getCurrentColor(square);
+        if (color.length === 3) return 1;
+        else return color[3];
+    }
+
     function setNewSquareColor(square, currentSquareColor) {
         const black = "black-square";
         const white = "white-square";
         const random = "random-square";
+        const darker = "darker";
+        const opacity = getSquareRgbaOpacity(square);
 
         function getRandomRgbaValues() {
             let red = Math.floor(Math.random() * 255);
@@ -124,6 +139,15 @@ function setSquaresBehavior() {
             }
         }
 
+        function decrementSquareOpacity(square) {
+            if (opacity <= 0) return;
+            else {
+                const rgbaColor = getCurrentColor(square);
+                const newOpacity = (+opacity - 0.1).toString();
+                square.style.backgroundColor = `rgba(${rgbaColor[0]}, ${rgbaColor[1]}, ${rgbaColor[2]}, ${newOpacity})`;
+            }
+        }
+
         // From any color to BLACK
         if (
             (currentSquareColor === white)
@@ -135,6 +159,15 @@ function setSquaresBehavior() {
             && (currentPenColor === defaultPenBlackColor)
         ) {
             changeSquareColorTo(defaultPenBlackColor);
+        } 
+
+        // If square already BLACK and current behavior DARKER (decrement opacity)
+        else if (
+            (currentSquareColor === black)
+            && (currentPenColor === defaultPenBlackColor)
+            && (currentOpacityBehavior === darker)
+        ) {
+            decrementSquareOpacity(square);
         }
 
         // From any color to WHITE
@@ -149,6 +182,15 @@ function setSquaresBehavior() {
         ) {
             changeSquareColorTo(defaultSquareWhiteColor);
         } 
+
+        // If square already WHITE and current behavior DARKER (decrement opacity)
+        else if (
+            (currentSquareColor === white)
+            && (currentPenColor === defaultSquareWhiteColor)
+            && (currentOpacityBehavior === darker)
+        ) {
+            decrementSquareOpacity(square);
+        }
         
         // From any color to RANDOM
         else if (
@@ -161,6 +203,15 @@ function setSquaresBehavior() {
             && (currentPenColor === defaultRandomColor)
         ) {
             changeSquareColorTo(defaultRandomColor);
+        }
+
+        // If square already RANDOM and current behavior DARKER (decrement opacity)
+        else if (
+            (currentSquareColor === random)
+            && (currentPenColor === defaultRandomColor)
+            && (currentOpacityBehavior === darker)
+        ) {
+            decrementSquareOpacity(square);
         }
     }
 
