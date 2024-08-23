@@ -4,6 +4,8 @@ const defaultPenBlackColor = "rgba(0, 0, 0, 1)";
 const defaultRandomColor = "random";
 const defaultSquareWhiteColor = "rgba(255, 243, 226, 1)";
 const defaultSquareSize = 16;
+const maxGridSize = 100;
+const minGridSize = 1;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
 const squaresInsideGrid = "#grid-container .grid";
@@ -273,6 +275,53 @@ function setSquaresBehavior() {
 function setButtonsClickedBehavior() {
     const buttons = document.querySelectorAll(".button");
 
+    function isUserInputEmpty(userInput) {
+        if (userInput === null || userInput === "") return true;
+        else return false;
+    }
+    
+    function isUserInputNumeric(userInput) {
+        if (!isNaN(userInput)) return true;
+        else return false;
+    }
+    
+    function isUserInputWithinRange(userInput) {
+        if (userInput >= minGridSize && userInput <= maxGridSize) return true;
+        else return false;
+    }
+    
+    function validateUserInput(userInput) {
+        if (isUserInputEmpty(userInput)) {
+            alert("Please, enter a number!");
+            return false;
+        } else if (isUserInputNumeric(userInput)) {
+            if (isUserInputWithinRange(userInput)) return true
+            else {
+                alert(`Please, enter only number between ${minGridSize} - ${maxGridSize}!`);
+                return false;
+            }
+        } else {
+            alert("Please, enter only numeric values!");
+            return false;
+        }
+    }
+
+    function getUserInputGridSize() {
+        const gridSize = prompt(`Enter a size for the grid(${minGridSize}-${maxGridSize}):`);
+        if (validateUserInput(gridSize)) return +gridSize;
+        else return defaultSquareSize;
+    }
+
+    function deleteGrid() {
+        document.querySelectorAll(squaresInsideGrid).forEach(square => square.remove());
+    }
+
+    function createNewGrid(gridSize, gridColor) {
+        deleteGrid();
+        drawGrid(gridSize, gridColor);
+        setSquaresBehavior();
+    }
+
     function resetGrid() {
         const white = "white-square";
         document.querySelectorAll(squaresInsideGrid).forEach(square => {
@@ -293,6 +342,7 @@ function setButtonsClickedBehavior() {
         const buttonBlackColor = "button-black-color";
         const buttonLessOpacity = "button---transparency";
         const buttonMoreOpacity = "button-+-transparency";
+        const buttonNewGrid = "button-new-grid";
         const buttonRandomColor = "button-random-color";
         const buttonResetGrid = "button-reset-grid";
         const buttonWhiteColor = "button-white-color";
@@ -301,7 +351,9 @@ function setButtonsClickedBehavior() {
         const buttonClicked = button.getAttribute("id");
         
         // Grid/Mode buttons
-        if (buttonClicked === buttonResetGrid) {
+        if (buttonClicked === buttonNewGrid) {
+            createNewGrid(getUserInputGridSize(), defaultSquareWhiteColor);
+        } else if (buttonClicked === buttonResetGrid) {
             resetGrid();
         }
 
