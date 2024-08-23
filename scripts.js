@@ -306,7 +306,7 @@ function setButtonsClickedBehavior() {
         }
 
         // Colors buttons
-        if (buttonClicked === buttonBlackColor) {
+        else if (buttonClicked === buttonBlackColor) {
             setNewPenColorTo(defaultPenBlackColor);
         } else if (buttonClicked === buttonWhiteColor) {
             setNewPenColorTo(defaultSquareWhiteColor);
