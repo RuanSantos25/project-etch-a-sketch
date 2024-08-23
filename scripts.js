@@ -9,8 +9,10 @@ const minGridSize = 1;
 const modesButtons = ["New Grid", "Reset Grid", "Hover Mode"];
 const opacityButtons = ["+ Transparency", "- Transparency"];
 const squaresInsideGrid = "#grid-container .grid";
+let currentGridSize = 0;
 let currentOpacityBehavior = "darker";
 let currentPenColor = defaultPenBlackColor;
+let currentPenBehavior = "mouseover";
 
 function drawHeaderText() {
     const h1 = document.createElement("h1");
@@ -79,6 +81,7 @@ function drawButtons() {
 }
 
 function drawGrid(squareSize, squareColor) {
+    currentGridSize = squareSize;
     function createSquare(size, color) {
         const div = document.createElement("div");
         div.setAttribute("id", "white-square");
@@ -99,17 +102,18 @@ function drawGrid(squareSize, squareColor) {
 }
 
 /**
- * setSquaresBehavior() adds events listener to mouse hover to each square
- * inside the grid. When hovered, the square will receive a new id based on
- * his new color, and a color based on his current id and current pen color.
- * if the pen color and the square current color are the same, the function 
- * will check the current behavior set(default = darker), if darker will 
- * decrement the opacity, if lighter will increment the opacity. 
+ * setSquaresBehavior() adds events listener based on the current behavior of
+ * the pen to each square inside the grid. When hovered or clicked, the square will
+ * receive a new id based on his new color, and a color based on his current id and 
+ * current pen color. If the pen color and the square current color are the same,
+ * the function will check the current behavior set(default = darker), if darker 
+ * will decrement the opacity, if lighter will increment the opacity. 
  * 
  *  - Default opacity = 1;
  *  - The min opacity = 0;
  *  - The max opacity = 1;
  *  - The squares opacity is restarted if the color is changed.
+ *  - Can have the behaviors: "mouseover"(hover) or "click"
  */
 function setSquaresBehavior() {
     function getCurrentColor(square) {
@@ -265,7 +269,7 @@ function setSquaresBehavior() {
     }
 
     document.querySelectorAll(squaresInsideGrid).forEach(square => {
-        square.addEventListener("mouseover", () => {
+        square.addEventListener(currentPenBehavior, () => {
             const id = square.getAttribute("id");
             setNewSquareColor(square, id);
         })
@@ -338,8 +342,27 @@ function setButtonsClickedBehavior() {
         currentOpacityBehavior = newOpacityBehavior;
     }
 
+    function setNewPenBehavior() {
+        const click = "click";
+        const hover = "mouseover";
+        if (currentPenBehavior === click) {
+            currentPenBehavior = hover;
+            const button = document.querySelector("#button-click-mode");
+            button.setAttribute("id", "button-hover-mode");
+            button.textContent = "Hover Mode";
+        } else if (currentPenBehavior === hover) {
+            currentPenBehavior = click;
+            const button = document.querySelector("#button-hover-mode");
+            button.setAttribute("id", "button-click-mode")
+            button.textContent = "Click Mode";
+        }
+        createNewGrid(currentGridSize, defaultSquareWhiteColor);
+    }
+
     function setButtonBehaviorById(button) {
         const buttonBlackColor = "button-black-color";
+        const buttonClickMode = "button-click-mode";
+        const buttonHoverMode = "button-hover-mode";
         const buttonLessOpacity = "button---transparency";
         const buttonMoreOpacity = "button-+-transparency";
         const buttonNewGrid = "button-new-grid";
@@ -355,6 +378,8 @@ function setButtonsClickedBehavior() {
             createNewGrid(getUserInputGridSize(), defaultSquareWhiteColor);
         } else if (buttonClicked === buttonResetGrid) {
             resetGrid();
+        } else if ((buttonClicked === buttonClickMode) || (buttonClicked === buttonHoverMode)) {
+            setNewPenBehavior();
         }
 
         // Colors buttons
