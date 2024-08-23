@@ -291,11 +291,11 @@ function setButtonsClickedBehavior() {
 
     function setButtonBehaviorById(button) {
         const buttonBlackColor = "button-black-color";
+        const buttonLessOpacity = "button---transparency";
+        const buttonMoreOpacity = "button-+-transparency";
         const buttonRandomColor = "button-random-color";
         const buttonResetGrid = "button-reset-grid";
         const buttonWhiteColor = "button-white-color";
-        const buttonMoreOpacity = "button-+-transparency";
-        const buttonLessOpacity = "button---transparency";
         const darker = "darker";
         const lighter = "lighter";
         const buttonClicked = button.getAttribute("id");
